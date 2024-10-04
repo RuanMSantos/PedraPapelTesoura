@@ -3,6 +3,7 @@ int numeroPlayer = 0, numeroMaquina = 0, pontuacaoPlayer = 0, pontuacaoMaquina =
 int teste = 0, rodada = 0;
 int dificuldade = 1, respostaDificuldade = 0;
 int limitesPontoPlayer = 5, limitesPontoMaquina = 5;
+int identificaVitoria = 0;
 bool modoFacil = true;
  
 Loop();
@@ -16,21 +17,23 @@ void Loop(){
     if (pontuacaoPlayer < limitesPontoPlayer && pontuacaoMaquina < limitesPontoMaquina){
         Loop();
     }
-    else if (pontuacaoPlayer == 5){
+    else if (pontuacaoPlayer == limitesPontoPlayer){
         Pontuacao();
-        Console.ForegroundColor = ConsoleColor.Magenta;
         vencedor = "Você ganhou";
         Console.ResetColor();
     }
     else {
+        identificaVitoria = 1;
         Pontuacao();
-        Console.ForegroundColor = ConsoleColor.DarkMagenta;
         vencedor = "Você perdeu";
         Console.ResetColor();
     }
 }
 
+if (identificaVitoria == 0) Console.ForegroundColor = ConsoleColor.Magenta;
+else Console.ForegroundColor = ConsoleColor.Red;
 Console.WriteLine($"{vencedor}");
+Console.ResetColor();
 
 void Tela(){
     rodada++;
