@@ -1,24 +1,32 @@
-﻿string resposta = "", vencedor = "";
+﻿string resposta = "", vencedor = "", textoDificuldade = "";
 int numeroPlayer = 0, numeroMaquina = 0, pontuacaoPlayer = 0, pontuacaoMaquina = 0; 
 int teste = 0, rodada = 0;
 int dificuldade = 1, respostaDificuldade = 0;
+int limitesPontoPlayer = 5, limitesPontoMaquina = 5;
+bool modoFacil = true;
  
 Loop();
 void Loop(){
-    Dificuldade();
+    if (rodada == 0){
+        Dificuldade();
+    }
     Tela();
     Maquina();
     Comparador();
-    if (pontuacaoPlayer < 5 && pontuacaoMaquina < 5){
+    if (pontuacaoPlayer < limitesPontoPlayer && pontuacaoMaquina < limitesPontoMaquina){
         Loop();
     }
     else if (pontuacaoPlayer == 5){
         Pontuacao();
+        Console.ForegroundColor = ConsoleColor.Magenta;
         vencedor = "Você ganhou";
+        Console.ResetColor();
     }
     else {
         Pontuacao();
+        Console.ForegroundColor = ConsoleColor.DarkMagenta;
         vencedor = "Você perdeu";
+        Console.ResetColor();
     }
 }
 
@@ -27,8 +35,10 @@ Console.WriteLine($"{vencedor}");
 void Tela(){
     rodada++;
     Pontuacao();
-    Console.WriteLine("0. Pedra 1. Papel 2. Tesoura");
+    ExibeComandos();
+    Console.ForegroundColor = ConsoleColor.DarkGray;
     resposta = Console.ReadLine()!;
+    Console.ResetColor();
     if (!int.TryParse(resposta, out numeroPlayer)){
         Console.WriteLine("Impossível converter, tente novamente...");
         Console.ReadKey();
@@ -44,9 +54,11 @@ void Tela(){
 void Maquina(){
     int random = new Random().Next(0, 3);
     teste = random;
-    if (rodada >= 2){
-        if (teste == numeroMaquina){
-            Maquina();
+    if (modoFacil){
+        if (rodada >= 2){
+            if (teste == numeroMaquina){
+                Maquina();
+            }
         }
     }
     numeroMaquina = teste;
@@ -91,13 +103,63 @@ void Comparador(){
 
 void Pontuacao(){
     Console.Clear();
-    Console.WriteLine("=> Pedra - Papel - Tesoursa <=\n");
-    Console.WriteLine($"Pontuação Máquina: {pontuacaoMaquina}");
-    Console.WriteLine($"Pontuação Player: {pontuacaoPlayer}\n");
+    Console.BackgroundColor = ConsoleColor.Gray;
+    Console.ForegroundColor = ConsoleColor.Black;
+    Console.WriteLine("‹ Pedra ↔ Papel ↔ Tesoursa ›\n");
+    Console.ResetColor();
+    Console.Write("Pontuação Máquina: ");
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine($"{pontuacaoMaquina}");
+    Console.ResetColor();
+    Console.Write("Pontuação Player: ");
+    Console.ForegroundColor = ConsoleColor.Blue;
+    Console.WriteLine($"{pontuacaoPlayer}\n");
+    Console.ResetColor();
 }
 
 void Dificuldade(){
     Pontuacao();
-    Console.WriteLine("Escolha a dificuldade: 1. 2.");
-    respostaDificuldade = Convert.ToInt32(Console.ReadLine());
+    DemonstraDificuldade();
+    Console.ForegroundColor = ConsoleColor.DarkGray;
+    textoDificuldade = Console.ReadLine();
+    Console.ResetColor();
+    if (!int.TryParse(textoDificuldade, out respostaDificuldade)){
+        Console.WriteLine("Impossível converter, tente novamente...");
+        Console.ReadKey();
+        Dificuldade();
+    }
+    else if (respostaDificuldade <= 0 || respostaDificuldade > 3){
+        Console.WriteLine("Numero incorreto, tente novamente...");
+        Console.ReadKey();
+        Dificuldade();
+    }
+    switch(respostaDificuldade){
+        case 2:
+        modoFacil = false;
+        break;
+        case 3:
+        modoFacil = false;
+        limitesPontoPlayer = 10;
+        break;
+    }
+}
+
+void DemonstraDificuldade(){
+    Console.WriteLine("Escolha a dificuldade: \n");
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
+    Console.WriteLine("1. Nutela †");
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
+    Console.WriteLine("2. Raíz ⟡");
+    Console.ForegroundColor = ConsoleColor.DarkRed;
+    Console.WriteLine("3. Portões do inferno ☠\n");
+    Console.ResetColor();
+}
+
+void ExibeComandos(){
+    Console.WriteLine("+-----------+-----------+-------------+");
+    Console.WriteLine("|     0     |     1     |      2      |");
+    Console.WriteLine("+-----------+-----------+-------------+");
+    Console.WriteLine("|   Pedra   |   Papel   |   Tesoura   |");
+    Console.WriteLine("+-----------+-----------+-------------+");
+    Console.WriteLine();
 }
