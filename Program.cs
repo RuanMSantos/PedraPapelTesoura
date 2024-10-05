@@ -1,16 +1,18 @@
 ﻿string resposta = "", vencedor = "", textoDificuldade = "";
-int numeroPlayer = 0, numeroMaquina = 0, pontuacaoPlayer = 0, pontuacaoMaquina = 0; 
+int numeroPlayerTemporario = 0, numeroMaquina = 0, pontuacaoPlayer = 0, pontuacaoMaquina = 0; 
 int teste = 0, rodada = 0;
 int dificuldade = 1, respostaDificuldade = 0;
 int limitesPontoPlayer = 5, limitesPontoMaquina = 5;
 int identificaVitoria = 0;
-bool modoFacil = true;
+int numeroPlayer = 0;
+bool modoFacil = true, impossivel = false;
  
 Loop();
 void Loop(){
     if (rodada == 0){
         Dificuldade();
     }
+    rodada++;
     Tela();
     Maquina();
     Comparador();
@@ -36,22 +38,31 @@ Console.WriteLine($"{vencedor}");
 Console.ResetColor();
 
 void Tela(){
-    rodada++;
     Pontuacao();
     ExibeComandos();
     Console.ForegroundColor = ConsoleColor.DarkGray;
     resposta = Console.ReadLine()!;
     Console.ResetColor();
-    if (!int.TryParse(resposta, out numeroPlayer)){
+    if (!int.TryParse(resposta, out numeroPlayerTemporario)){
         Console.WriteLine("Impossível converter, tente novamente...");
         Console.ReadKey();
         Tela();
     }
-    else if (numeroPlayer < 0 || numeroPlayer > 2){
+    else if (numeroPlayerTemporario < 0 || numeroPlayerTemporario > 2){
         Console.WriteLine("Numero incorreto, tente novamente...");
         Console.ReadKey();
         Tela();
     }
+    if(impossivel){
+        if(rodada >= 2){
+            if (numeroPlayer == numeroPlayerTemporario){
+                Console.WriteLine("Impossível fazer a mesma jogada duas vezes seguidas...");
+                Console.ReadKey();
+                Tela();
+            }
+        }
+    }
+    numeroPlayer = numeroPlayerTemporario ;
 }
 
 void Maquina(){
@@ -68,32 +79,32 @@ void Maquina(){
 }
 
 void Comparador(){
-    if (numeroPlayer == 0 && numeroMaquina == 1){
+    if (numeroPlayerTemporario == 0 && numeroMaquina == 1){
         pontuacaoMaquina++;
         Console.WriteLine("\nPonto da máquina");
         Thread.Sleep(500);
     }
-    else if (numeroPlayer == 0 && numeroMaquina == 2){
+    else if (numeroPlayerTemporario == 0 && numeroMaquina == 2){
         pontuacaoPlayer++;
         Console.WriteLine("\nPonto do jogador");
         Thread.Sleep(500);
     }
-    else if (numeroPlayer == 1 && numeroMaquina == 0){
+    else if (numeroPlayerTemporario == 1 && numeroMaquina == 0){
         pontuacaoPlayer++;
         Console.WriteLine("\nPonto do jogador");
         Thread.Sleep(500);
     }
-    else if (numeroPlayer == 1 && numeroMaquina == 2){
+    else if (numeroPlayerTemporario == 1 && numeroMaquina == 2){
         pontuacaoMaquina++;
         Console.WriteLine("\nPonto da máquina");
         Thread.Sleep(500);
     }
-    else if (numeroPlayer == 2 && numeroMaquina == 0){
+    else if (numeroPlayerTemporario == 2 && numeroMaquina == 0){
         pontuacaoMaquina++;
         Console.WriteLine("\nPonto da máquina");
         Thread.Sleep(500);
     }
-    else if (numeroPlayer == 2 && numeroMaquina == 1){
+    else if (numeroPlayerTemporario == 2 && numeroMaquina == 1){
         pontuacaoPlayer++;
         Console.WriteLine("\nPonto do jogador");
         Thread.Sleep(500);
@@ -131,7 +142,7 @@ void Dificuldade(){
         Console.ReadKey();
         Dificuldade();
     }
-    else if (respostaDificuldade <= 0 || respostaDificuldade > 3){
+    else if (respostaDificuldade <= 0 || respostaDificuldade > 4){
         Console.WriteLine("Numero incorreto, tente novamente...");
         Console.ReadKey();
         Dificuldade();
@@ -144,6 +155,11 @@ void Dificuldade(){
         modoFacil = false;
         limitesPontoPlayer = 10;
         break;
+        case 4:
+        modoFacil = false;
+        limitesPontoPlayer = 10;
+        impossivel = true;
+        break;
     }
 }
 
@@ -154,7 +170,10 @@ void DemonstraDificuldade(){
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("2. Raíz ⟡");
     Console.ForegroundColor = ConsoleColor.DarkRed;
-    Console.WriteLine("3. Portões do inferno ☠\n");
+    Console.WriteLine("3. Portões do inferno ☠");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.Blue;
+    Console.WriteLine("4. Só para hackers ☻\n");
     Console.ResetColor();
 }
 
