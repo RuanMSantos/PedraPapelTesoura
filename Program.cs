@@ -108,7 +108,7 @@ void Pontuacao(){
     Console.Clear();
     Console.BackgroundColor = ConsoleColor.Gray;
     Console.ForegroundColor = ConsoleColor.Black;
-    Console.WriteLine("‹ Pedra ↔ Papel ↔ Tesoursa ›\n");
+    Console.WriteLine("‹ Pedra ↔ Papel ↔ Tesoura ›\n");
     Console.ResetColor();
     Console.Write("Pontuação Máquina: ");
     Console.ForegroundColor = ConsoleColor.Red;
