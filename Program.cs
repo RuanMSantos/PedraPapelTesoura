@@ -7,10 +7,10 @@ int identificaVitoria = 0;
 int numeroPlayer = 0;
 bool modoFacil = true, impossivel = false;
 
-string nutela = "A máquina não pode repetir as jogadas duas vezes seguidas, porém, você pode. => Valor para vitória 5 para os dois.\n";
-string raiz = "Os dois podem repetir a jogada. => Valor para vitória 5 para os dois.\n";
-string portoesDoInferno = "Os dois podem repetir a jogada, entretanto... O inferno é injusto => Valor para vitória 5 para máquina e 10 para você.\n";
-string soParaHackers = "Você não pode repetir as mesmas jogadas seguidas, podemos dizer que são duas injustiças seguidas... Valor para vitória 5 para máquina e 15 para você.\n\n";
+string nutela = "\nA máquina não pode repetir as jogadas duas vezes seguidas, porém, você pode. => Valor para vitória: 5 para os dois.\n";
+string raiz = "Os dois podem repetir a jogada. => Valor para vitória: 5 para os dois.\n";
+string portoesDoInferno = "Os dois podem repetir a jogada, entretanto... O inferno é injusto. => Valor para vitória: 5 para máquina e 10 para você.\n";
+string soParaHackers = "Você não pode repetir as mesmas jogadas seguidas, podemos dizer que são duas injustiças seguidas... => Valor para vitória: 5 para máquina e 15 para você.\n\n";
  
 Loop();
 void Loop(){
@@ -138,8 +138,8 @@ void Pontuacao(){
 
 void Dificuldade(){
     Pontuacao();
-    DemonstraDificuldade();
     LiberacaoDescricao();
+    DemonstraDificuldade();
     Console.ForegroundColor = ConsoleColor.DarkGray;
     textoDificuldade = Console.ReadLine();
     Console.ResetColor();
@@ -170,7 +170,7 @@ void Dificuldade(){
 }
 
 void DemonstraDificuldade(){
-    Console.WriteLine("Escolha a dificuldade: \n");
+    Console.WriteLine("\nEscolha a dificuldade: \n");
     Console.ForegroundColor = ConsoleColor.DarkGreen;
     Console.WriteLine("1. Nutela †");
     Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -223,20 +223,20 @@ void Descricao(){
 void LiberacaoDescricao(){
     Console.Write("Quer uma descrição para entender com o que está lidando?[s/n] ");
     respostaDescricao = Console.ReadLine()!.ToLower().Trim();
-    Console.WriteLine();
     if(respostaDescricao != "s" && respostaDescricao != "n"){
-        Thread.Sleep(200);
-        Console.Write("\nboing! ");
-        Thread.Sleep(200);
+        Thread.Sleep(500);
+        Console.Write("\n\nboing! ");
+        Thread.Sleep(500);
         Console.WriteLine("RESPOSTA ERRADA!");
-        LiberacaoDescricao();
+        Thread.Sleep(500);
+        Console.WriteLine("\nPressione uma tecla para tentar novamente...");
+        Console.ReadKey();
+        Dificuldade();
  
     }
     if (respostaDescricao == "s"){
-        Console.Clear();
         Descricao();
         Console.WriteLine("Pressione uma tecla para continuar...");
         Console.ReadKey();
-        Dificuldade();
     }
 }
