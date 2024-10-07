@@ -240,7 +240,7 @@ void Descricao(){
 }
 
 void LiberacaoDescricao(){
-    Console.Write("Quer uma descrição para entender com o que está lidando?[s/n] ");
+    Console.Write("Quer uma descrição para entender com o que está lidando? [s/n] ");
     respostaDescricao = Console.ReadLine()!.ToLower().Trim();
     if(respostaDescricao != "s" && respostaDescricao != "n"){
         Thread.Sleep(500);
