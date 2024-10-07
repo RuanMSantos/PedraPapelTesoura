@@ -1,4 +1,4 @@
-﻿string resposta = "", vencedor = "", textoDificuldade = "";
+﻿string resposta = "", vencedor = "", textoDificuldade = "", respostaDescricao = "";
 int numeroPlayerTemporario = 0, numeroMaquina = 0, pontuacaoPlayer = 0, pontuacaoMaquina = 0; 
 int teste = 0, rodada = 0;
 int dificuldade = 1, respostaDificuldade = 0;
@@ -6,6 +6,11 @@ int limitesPontoPlayer = 5, limitesPontoMaquina = 5;
 int identificaVitoria = 0;
 int numeroPlayer = 0;
 bool modoFacil = true, impossivel = false;
+
+string nutela = "A máquina não pode repetir as jogadas duas vezes seguidas, porém, você pode. => Valor para vitória 5 para os dois.\n";
+string raiz = "Os dois podem repetir a jogada. => Valor para vitória 5 para os dois.\n";
+string portoesDoInferno = "Os dois podem repetir a jogada, entretanto... O inferno é injusto => Valor para vitória 5 para máquina e 10 para você.\n";
+string soParaHackers = "Você não pode repetir as mesmas jogadas seguidas, podemos dizer que são duas injustiças seguidas... Valor para vitória 5 para máquina e 15 para você.\n\n";
  
 Loop();
 void Loop(){
@@ -134,6 +139,7 @@ void Pontuacao(){
 void Dificuldade(){
     Pontuacao();
     DemonstraDificuldade();
+    LiberacaoDescricao();
     Console.ForegroundColor = ConsoleColor.DarkGray;
     textoDificuldade = Console.ReadLine();
     Console.ResetColor();
@@ -157,7 +163,7 @@ void Dificuldade(){
         break;
         case 4:
         modoFacil = false;
-        limitesPontoPlayer = 10;
+        limitesPontoPlayer = 15;
         impossivel = true;
         break;
     }
@@ -184,4 +190,53 @@ void ExibeComandos(){
     Console.WriteLine("|   Pedra   |   Papel   |   Tesoura   |");
     Console.WriteLine("+-----------+-----------+-------------+");
     Console.WriteLine();
+}
+
+void Descricao(){
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
+    for (int i = 0; i < nutela.Length; i++){
+        char caractere = nutela[i];
+        Thread.Sleep(25);
+        Console.Write(caractere);
+    }
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
+    for (int i = 0; i < raiz.Length; i++){
+        char caractere = raiz[i];
+        Thread.Sleep(25);
+        Console.Write(caractere);
+    }
+    Console.ForegroundColor = ConsoleColor.DarkRed;
+    for (int i = 0; i < portoesDoInferno.Length; i++){
+        char caractere = portoesDoInferno[i];
+        Thread.Sleep(25);
+        Console.Write(caractere);
+    }
+    Console.ForegroundColor = ConsoleColor.Blue;
+    for (int i = 0; i < soParaHackers.Length; i++){
+        char caractere = soParaHackers[i];
+        Thread.Sleep(25);
+        Console.Write(caractere);
+    }
+    Console.ResetColor();
+}
+
+void LiberacaoDescricao(){
+    Console.Write("Quer uma descrição para entender com o que está lidando?[s/n] ");
+    respostaDescricao = Console.ReadLine()!.ToLower().Trim();
+    Console.WriteLine();
+    if(respostaDescricao != "s" && respostaDescricao != "n"){
+        Thread.Sleep(200);
+        Console.Write("\nboing! ");
+        Thread.Sleep(200);
+        Console.WriteLine("RESPOSTA ERRADA!");
+        LiberacaoDescricao();
+ 
+    }
+    if (respostaDescricao == "s"){
+        Console.Clear();
+        Descricao();
+        Console.WriteLine("Pressione uma tecla para continuar...");
+        Console.ReadKey();
+        Dificuldade();
+    }
 }
