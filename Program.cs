@@ -6,12 +6,13 @@ int limitesPontoPlayer = 5, limitesPontoMaquina = 5;
 int identificaVitoria = 0;
 int numeroPlayer = 0;
 bool modoFacil = true, impossivel = false;
+int speed = 10;
 
 string nutela = "\nA máquina não pode repetir as jogadas duas vezes seguidas, porém, você pode. => Valor para vitória: 5 para os dois.\n";
 string raiz = "Os dois podem repetir a jogada. => Valor para vitória: 5 para os dois.\n";
 string portoesDoInferno = "Os dois podem repetir a jogada, entretanto... O inferno é injusto. => Valor para vitória: 5 para máquina e 10 para você.\n";
 string soParaHackers = "Você não pode repetir as mesmas jogadas seguidas, podemos dizer que são duas injustiças seguidas... => Valor para vitória: 5 para máquina e 15 para você.\n\n";
- 
+
 Loop();
 void Loop(){
     if (rodada == 0){
@@ -46,7 +47,9 @@ void Tela(){
     Pontuacao();
     ExibeComandos();
     Console.ForegroundColor = ConsoleColor.DarkGray;
+    Console.CursorVisible = false;
     resposta = Console.ReadLine()!;
+    Console.CursorVisible = true;
     Console.ResetColor();
     if (!int.TryParse(resposta, out numeroPlayerTemporario)){
         Console.WriteLine("Impossível converter, tente novamente...");
@@ -67,7 +70,7 @@ void Tela(){
             }
         }
     }
-    numeroPlayer = numeroPlayerTemporario ;
+    numeroPlayer = numeroPlayerTemporario;
 }
 
 void Maquina(){
@@ -86,36 +89,50 @@ void Maquina(){
 void Comparador(){
     if (numeroPlayerTemporario == 0 && numeroMaquina == 1){
         pontuacaoMaquina++;
-        Console.WriteLine("\nPonto da máquina");
+        Console.CursorVisible = false;
+        Console.Write("\nPonto da máquina");
         Thread.Sleep(500);
+    Console.CursorVisible = true;
     }
     else if (numeroPlayerTemporario == 0 && numeroMaquina == 2){
         pontuacaoPlayer++;
-        Console.WriteLine("\nPonto do jogador");
+        Console.CursorVisible = false;
+        Console.Write("\nPonto do jogador");
+        Console.CursorVisible = true;
         Thread.Sleep(500);
     }
     else if (numeroPlayerTemporario == 1 && numeroMaquina == 0){
         pontuacaoPlayer++;
-        Console.WriteLine("\nPonto do jogador");
+        Console.CursorVisible = false;
+        Console.Write("\nPonto do jogador");
+        Console.CursorVisible = true;
         Thread.Sleep(500);
     }
     else if (numeroPlayerTemporario == 1 && numeroMaquina == 2){
         pontuacaoMaquina++;
-        Console.WriteLine("\nPonto da máquina");
+        Console.CursorVisible = false;
+        Console.Write("\nPonto da máquina");
+        Console.CursorVisible = true;
         Thread.Sleep(500);
     }
     else if (numeroPlayerTemporario == 2 && numeroMaquina == 0){
         pontuacaoMaquina++;
-        Console.WriteLine("\nPonto da máquina");
+        Console.CursorVisible = false;
+        Console.Write("\nPonto da máquina");
+        Console.CursorVisible = true;
         Thread.Sleep(500);
     }
     else if (numeroPlayerTemporario == 2 && numeroMaquina == 1){
         pontuacaoPlayer++;
-        Console.WriteLine("\nPonto do jogador");
+        Console.CursorVisible = false;
+        Console.Write("\nPonto do jogador");
+        Console.CursorVisible = true;
         Thread.Sleep(500);
     }
     else {
-        Console.WriteLine("\nEmpate");
+        Console.CursorVisible = false;
+        Console.Write("\nEmpate");
+        Console.CursorVisible = true;
         Thread.Sleep(500);
     }
 }
@@ -184,40 +201,42 @@ void DemonstraDificuldade(){
 }
 
 void ExibeComandos(){
-    Console.WriteLine("+-----------+-----------+-------------+");
+    Console.WriteLine("+---------- + --------- + ----------- +");
     Console.WriteLine("|     0     |     1     |      2      |");
-    Console.WriteLine("+-----------+-----------+-------------+");
+    Console.WriteLine("+ --------- + --------- + ----------- +");
     Console.WriteLine("|   Pedra   |   Papel   |   Tesoura   |");
-    Console.WriteLine("+-----------+-----------+-------------+");
+    Console.WriteLine("+ --------- + --------- + ----------- +");
     Console.WriteLine();
 }
 
 void Descricao(){
+    Console.CursorVisible = false;
     Console.ForegroundColor = ConsoleColor.DarkGreen;
     for (int i = 0; i < nutela.Length; i++){
         char caractere = nutela[i];
-        Thread.Sleep(25);
+        Thread.Sleep(speed);
         Console.Write(caractere);
     }
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     for (int i = 0; i < raiz.Length; i++){
         char caractere = raiz[i];
-        Thread.Sleep(25);
+        Thread.Sleep(speed);
         Console.Write(caractere);
     }
     Console.ForegroundColor = ConsoleColor.DarkRed;
     for (int i = 0; i < portoesDoInferno.Length; i++){
         char caractere = portoesDoInferno[i];
-        Thread.Sleep(25);
+        Thread.Sleep(speed);
         Console.Write(caractere);
     }
     Console.ForegroundColor = ConsoleColor.Blue;
     for (int i = 0; i < soParaHackers.Length; i++){
         char caractere = soParaHackers[i];
-        Thread.Sleep(25);
+        Thread.Sleep(speed);
         Console.Write(caractere);
     }
     Console.ResetColor();
+    Console.CursorVisible = true;
 }
 
 void LiberacaoDescricao(){
@@ -231,10 +250,10 @@ void LiberacaoDescricao(){
         Thread.Sleep(500);
         Console.WriteLine("\nPressione uma tecla para tentar novamente...");
         Console.ReadKey();
-        Dificuldade();
- 
+        Pontuacao();
+        LiberacaoDescricao();
     }
-    if (respostaDescricao == "s"){
+    else if (respostaDescricao == "s"){
         Descricao();
         Console.WriteLine("Pressione uma tecla para continuar...");
         Console.ReadKey();
